@@ -14,4 +14,3 @@ class User(Base):
     sex = Column(Enum('male', 'female', 'not_selected'))
     nickname = Column(String(30), nullable=True)
     refresh_token = Column(String(500))
-
