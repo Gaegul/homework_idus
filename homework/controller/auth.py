@@ -1,12 +1,15 @@
 from flask import abort
+from werkzeug.security import generate_password_hash
 
 from homework.model import session
 from homework.model.user import User
 from homework.controller import (check_characters_is_lower,
-                                 check_characters_is_more)
+                                 check_characters_is_more, check_email_format)
 
 
 def sign_up(email, password, phone_number, name, sex, nickname):
+
+    check_email_format(email)
 
     user = session.query(User).filter(User.email == email).first()
 
@@ -20,8 +23,9 @@ def sign_up(email, password, phone_number, name, sex, nickname):
     check_characters_is_lower(20, name, "name")
     check_characters_is_lower(30, nickname, "nickname")
 
-    add_user = User(email=email, password=password, phone_number=phone_number,
-                    name=name, sex=sex, nickname=nickname)
+    add_user = User(email=email, password=generate_password_hash(password),
+                    phone_number=phone_number, name=name, sex=sex,
+                    nickname=nickname)
 
     session.add(add_user)
     session.commit()
