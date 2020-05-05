@@ -4,7 +4,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from homework.view import check_json
 from homework.controller.auth import (sign_up, logout, get_user_info,
-                                      get_user_order_list)
+                                      get_user_order_list, get_users_info)
 
 
 class Auth(Resource):
@@ -50,3 +50,15 @@ class GetUserOrderList(Resource):
     def get(self, email):
 
         return get_user_order_list(email)
+
+
+class GetUsersInfo(Resource):
+
+    @jwt_required
+    def get(self):
+
+        pagination = request.args.get("pagination", default="")
+        email = request.args.get("email", default=None)
+        name = request.args.get("name", default=None)
+
+        return get_users_info(pagination, email, name)

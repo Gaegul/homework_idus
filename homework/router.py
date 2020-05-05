@@ -17,3 +17,6 @@ api_auth.add_resource(GetUserInfo, "/<email>")
 
 from homework.view.auth import GetUserOrderList
 api_auth.add_resource(GetUserOrderList, "/<email>/order")
+
+from homework.view.auth import GetUsersInfo
+api_auth.add_resource(GetUsersInfo, "/auth")

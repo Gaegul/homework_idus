@@ -83,3 +83,42 @@ def get_user_order_list(email):
             }for order in orders]
     else:
         return abort(404, "Can not found user order list")
+
+
+def get_users_info(pagination, email, name):
+
+    users = session.query(User).order_by(User.email)
+
+    if email is not None:
+        users = users.filter(User.email.like(f'%{email}%'))
+
+    if name is not None:
+        users = users.filter(User.name.like(f'%{name}%'))
+
+    users = users.filter(User.email > pagination).limit(10).all()
+
+    if users:
+        return [{
+            "email": user.email,
+            "name": user.name,
+            "nickname": user.nickname,
+            "sex": user.sex,
+            "phone_number": user.phone_number,
+            "last_order_id": (session.query(Order)
+                              .order_by(Order.payment.desc())
+                              .filter(Order.order_user == user.email)
+                              .first().order_id) if (session.query(Order)
+                                                     .filter(Order.order_user
+                                                             == user.email)
+                                                     .first()) else "NULL",
+            "last_order_name": (session.query(Order)
+                                .order_by(Order.payment.desc())
+                                .filter(Order.order_user == user.email)
+                                .first().product_name) if (session.query(Order)
+                                                           .filter(Order.order_user
+                                                                   == user.email)
+                                                           .first()) else "NULL"
+        } for user in users]
+
+    else:
+        return abort(404, "No user found satisfied with the condition")
