@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash
 
 from homework.model import session
 from homework.model.user import User
+from homework.model.order import Order
 from homework.controller import (check_characters_is_lower,
                                  check_characters_is_more, check_email_format)
 
@@ -68,3 +69,17 @@ def get_user_info(email):
 
     else:
         return abort(404, "Can not found user")
+
+
+def get_user_order_list(email):
+
+    orders = session.query(Order).filter(Order.order_user == email).all()
+
+    if orders:
+        return [{
+                "order_id": order.order_id,
+                "product_name": order.product_name,
+                "payment": str(order.payment)
+            }for order in orders]
+    else:
+        return abort(404, "Can not found user order list")
