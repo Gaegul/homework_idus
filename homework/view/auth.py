@@ -3,7 +3,7 @@ from flask_restful import Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from homework.view import check_json
-from homework.controller.auth import sign_up, logout
+from homework.controller.auth import sign_up, logout, get_user_info
 
 
 class Auth(Resource):
@@ -33,3 +33,11 @@ class Auth(Resource):
         email = get_jwt_identity()
 
         return logout(email)
+
+
+class GetUserInfo(Resource):
+
+    @jwt_required
+    def get(self, email):
+
+        return get_user_info(email)

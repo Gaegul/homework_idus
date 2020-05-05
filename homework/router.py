@@ -11,3 +11,6 @@ api_auth.add_resource(Auth, "/auth")
 
 from homework.view.login import Login
 api_auth.add_resource(Login, "/login")
+
+from homework.view.auth import GetUserInfo
+api_auth.add_resource(GetUserInfo, "/auth/<email>")

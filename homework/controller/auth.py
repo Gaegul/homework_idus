@@ -50,3 +50,21 @@ def logout(email):
 
     else:
         return abort(401, "Cannot find token user")
+
+
+def get_user_info(email):
+
+    user = session.query(User).filter(User.email == email).first()
+
+    if user:
+
+        return {
+            "email": user.email,
+            "name": user.name,
+            "nickname": user.nickname,
+            "sex": user.sex,
+            "phone_number": user.phone_number
+        }
+
+    else:
+        return abort(404, "Can not found user")
