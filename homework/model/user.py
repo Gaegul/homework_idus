@@ -11,7 +11,7 @@ class User(Base):
     password = Column(String(100), nullable=True)
     phone_number = Column(String(20), nullable=True)
     name = Column(String(20), nullable=True)
-    sex = Column(Enum('male', 'female', 'not_selected'), nullable=False)
+    sex = Column(Enum('male', 'female', 'not_selected'))
     nickname = Column(String(30), nullable=True)
-    refresh_token = Column(String(100), nullable=False)
+    refresh_token = Column(String(100))
 
