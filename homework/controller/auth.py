@@ -5,12 +5,19 @@ from homework.model import session
 from homework.model.user import User
 from homework.model.order import Order
 from homework.controller import (check_characters_is_lower,
-                                 check_characters_is_more, check_email_format)
+                                 check_characters_is_more, check_format)
 
 
 def sign_up(email, password, phone_number, name, sex, nickname):
 
-    check_email_format(email)
+    check_format('^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]'
+                 '+\.[a-zA-Z0-9-.]+$', email, "email")
+    check_format('^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)'
+                 '(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{10,}',
+                 password, "password")
+    check_format('^[0-9]*$', phone_number, "phone_number")
+    check_format('^[가-힣a-zA-Z]+$', name, "name")
+    check_format('^[a-z]+$', nickname, "nickname")
 
     user = session.query(User).filter(User.email == email).first()
 
