@@ -26,3 +26,20 @@ def login(email, password):
 
     else:
         return abort(400, "The email or password is incorrect")
+
+
+def logout(email):
+
+    user = session.query(User).filter(User.email == email).first()
+
+    if user:
+        user.refresh_token = None
+
+        session.commit()
+
+        return {
+            "message": "Successfully logout"
+        }
+
+    else:
+        return abort(401, "Cannot find token user")

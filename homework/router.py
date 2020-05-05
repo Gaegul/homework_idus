@@ -7,16 +7,16 @@ api_auth = Api(bp_auth)
 
 
 from homework.view.auth import Auth
-api_auth.add_resource(Auth, "/auth")
+api_auth.add_resource(Auth, "/user")
 
 from homework.view.login import Login
-api_auth.add_resource(Login, "/login")
+api_auth.add_resource(Login, "/user/auth")
 
 from homework.view.auth import GetUserInfo
-api_auth.add_resource(GetUserInfo, "/<email>")
+api_auth.add_resource(GetUserInfo, "/user/<email>")
 
 from homework.view.auth import GetUserOrderList
-api_auth.add_resource(GetUserOrderList, "/<email>/order")
+api_auth.add_resource(GetUserOrderList, "/user/<email>/orders")
 
 from homework.view.auth import GetUsersInfo
-api_auth.add_resource(GetUsersInfo, "/auth")
+api_auth.add_resource(GetUsersInfo, "/users")

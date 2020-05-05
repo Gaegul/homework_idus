@@ -43,23 +43,6 @@ def sign_up(email, password, phone_number, name, sex, nickname):
     }
 
 
-def logout(email):
-
-    user = session.query(User).filter(User.email == email).first()
-
-    if user:
-        user.refresh_token = None
-
-        session.commit()
-
-        return {
-            "message": "Successfully logout"
-        }
-
-    else:
-        return abort(401, "Cannot find token user")
-
-
 def get_user_info(email):
 
     user = session.query(User).filter(User.email == email).first()
