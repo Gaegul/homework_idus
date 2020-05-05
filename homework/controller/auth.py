@@ -33,3 +33,20 @@ def sign_up(email, password, phone_number, name, sex, nickname):
     return {
         "message": "Successfully signed up"
     }
+
+
+def logout(email):
+
+    user = session.query(User).filter(User.email == email).first()
+
+    if user:
+        user.refresh_token = None
+
+        session.commit()
+
+        return {
+            "message": "Successfully logout"
+        }
+
+    else:
+        return abort(401, "Cannot find token user")

@@ -1,11 +1,13 @@
 from flask import request
 from flask_restful import Resource
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from homework.view import check_json
-from homework.controller.auth import sign_up
+from homework.controller.auth import sign_up, logout
 
 
 class Auth(Resource):
+
     check_json({
         "email": str,
         "password": str,
@@ -24,3 +26,10 @@ class Auth(Resource):
         nickname = request.json['nickname']
 
         return sign_up(email, password, phone_number, name, sex, nickname)
+
+    @jwt_required
+    def delete(self):
+
+        email = get_jwt_identity()
+
+        return logout(email)
