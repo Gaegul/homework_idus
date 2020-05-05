@@ -8,3 +8,6 @@ api_auth = Api(bp_auth)
 
 from homework.view.auth import Auth
 api_auth.add_resource(Auth, "/auth")
+
+from homework.view.login import Login
+api_auth.add_resource(Login, "/login")
